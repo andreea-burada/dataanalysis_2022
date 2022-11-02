@@ -5,18 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "functions.py",
+            "name": "Python: Current File",
             "type": "python",
             "request": "launch",
-            "program": "functions.py",
-            "console": "integratedTerminal",
-            "justMyCode": true
-        },
-        {
-            "name": "Seminar_6.py",
-            "type": "python",
-            "request": "launch",
-            "program": "Seminar_6.py",
+            "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true
         }
