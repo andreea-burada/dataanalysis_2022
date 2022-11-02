@@ -5,12 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Current File",
+            "name": "homework_1",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
+            "program": "Seminar_6.py",
             "console": "integratedTerminal",
-            "justMyCode": true
+            "justMyCode": true,
+            "cwd": "C:\\Code Projects\\datanalysis_2022\\homework_1"
         }
     ]
 }
