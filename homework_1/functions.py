@@ -132,7 +132,7 @@ def ethnicities_per_macroregion(eth_csv, code_info_dict):
     for index, row in eth_csv.iterrows():
         # find county of code
         code = row['Code']
-        # 1 - macroregion
+        # 2 - macroregion
         macroregion = str(code_info_dict[code][2])
         current_row_dict = dict(row[2:])
         # check if key exists
