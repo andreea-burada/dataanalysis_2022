@@ -1,54 +1,41 @@
-import pandas
 import os
+import pandas
 import json
+import math
 
-path = os.getcwd()
-path += "\\dataIN\\CoduriRomania.xlsx"
+excel_path = os.getcwd()
+excel_path += "\\dataIN\\CoduriRomania.xlsx"
 csv_path = os.getcwd()
 csv_path += "\\dataIN\\Ethnicity.csv"
+
 
 '''
 input: path - excel location
 output: cities_sheet, counties_sheet, regions_sheet
 '''
-def read_excel(path=path):
+def read_excel(path=excel_path):
     
     cities_sheet = pandas.read_excel(path, sheet_name='Localitati')
     counties_sheet = pandas.read_excel(path, sheet_name='Judete', index_col=0)
     regions_sheet = pandas.read_excel(path, sheet_name='Regiuni', index_col=0)
 
-    # excel_dict = pandas.read_excel(path, sheet_name=None, index_col=0)
-    # print(type(excel_dict))
-    # print(excel_dict)
-
-    # for key, value in excel_dict.items():
-    #     print(key, value)
-    # return cities_sheet, counties_sheet, regions_sheet
-
-    # for test
-    # print(cities_sheet)
-    # print(counties_sheet)
-    # print(regions_sheet)
-    
-    # traverse cities_sheet
-    # i = 0
-    # for index, row in cities_sheet.iterrows():
-    #     i += 1
-    #     print(row['Code'])
-    #     if i == 20:
-    #         break
-
-    cities_sheet.groupby
-
     return cities_sheet, counties_sheet, regions_sheet
 
 
+'''
+input: path - csv location
+output: ethnicities_csv - dict
+'''
 def read_csv(path=csv_path):
     ethnicities_csv = pandas.read_csv(path)
     
     return ethnicities_csv
 
 
+'''
+input: dict_2_save - dict to be exported, filename - name of json file
+output: -
+'''
 def save_to_json(dict_2_save, filename):
     path = os.getcwd()
     path += '\\dataOUT\\' + filename
@@ -58,6 +45,10 @@ def save_to_json(dict_2_save, filename):
     file.close()
 
 
+'''
+input: eth_csv - csv of ethnicities; code_info_dict - dictionary of code and respective county, region and macroregion
+output: code_info_dict - dictionary of codes and respective county, region and macroregion
+'''
 def map_code_to_info(eth_csv, cities_sheet, counties_sheet, regions_sheet):
     code_info_dict = {}
     # iterate over the csv
@@ -156,14 +147,79 @@ def ethnicities_per_macroregion(eth_csv, code_info_dict):
     return ethnicities_per_macroregion_dict
 
 
-# test code
-s1, s2, s3 = read_excel()
-eth_csv = read_csv()
-marele_dict = map_code_to_info(eth_csv, s1, s2, s3)
-eth_county = ethnicities_per_county(eth_csv, marele_dict)
-eth_region = ethnicities_per_region(eth_csv, marele_dict)
-eth_macroregion = ethnicities_per_macroregion(eth_csv, marele_dict)
+def dissimilarity_index(ethnicities_per_county, ethnicity):
+    # T - total population of all counties
+    T = 0
+    for key, value in ethnicities_per_county.items():
+        for k, v in value.items():
+            T += v
+    
+    # dict_T - total population per county
+    dict_T = {}
+    for key, value in ethnicities_per_county.items():
+        total = 0
+        for k, v in value.items():
+            total += v
+        dict_T.update({key: total})
+    
+    # dict_Tx - total population per ethnicity
+    dict_Tx = {}
+    for key, value in ethnicities_per_county.items():
+        for k, v in value.items():
+            if k not in dict_Tx:
+                dict_Tx.update({k: v})
+            else:
+                dict_Tx[k] += v
 
-save_to_json(eth_county, filename="ethnicities_per_county.json")
-save_to_json(eth_region, filename="ethnicities_per_region.json")
-save_to_json(eth_macroregion, filename="ethnicities_per_macroregion.json")
+    # ethnicities list
+    ethnicities = list(ethnicities_per_county[list(ethnicities_per_county.keys())[0]].keys())
+
+    # counties list
+    counties = list(ethnicities_per_county.keys())
+
+    if ethnicity not in ethnicities:
+        raise Exception('Invalid ethnicity')
+
+    D = 0
+    for i in range(len(counties)):
+        current_county = counties[i]
+        xi = ethnicities_per_county[current_county][ethnicity]
+        ri = dict_T[current_county] - xi
+        Tx = dict_Tx[ethnicity]
+        Tr = T - Tx
+
+        D += abs((xi / Tx) - (ri / Tr))
+
+    return 0.5 * D
+
+
+def Shannon_Weaver(ethnicities_per_county, ethnicity):
+     # dict_T - total population per county
+    dict_T = {}
+    for key, value in ethnicities_per_county.items():
+        total = 0
+        for k, v in value.items():
+            total += v
+        dict_T.update({key: total})
+
+    # ethnicities list
+    ethnicities = list(ethnicities_per_county[list(ethnicities_per_county.keys())[0]].keys())
+
+    # counties list
+    counties = list(ethnicities_per_county.keys())
+
+    if ethnicity not in ethnicities:
+        raise Exception('Invalid ethnicity')
+
+    H = 0
+    for i in range(len(counties)):
+        current_county = counties[i]
+        xi = ethnicities_per_county[current_county][ethnicity]
+        if xi != 0:
+            ri = dict_T[current_county] - xi
+            pi = xi / (ri + xi)
+
+            H += pi * math.log(pi, 2)
+
+    return (-H)
+
