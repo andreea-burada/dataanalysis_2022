@@ -147,6 +147,10 @@ def ethnicities_per_macroregion(eth_csv, code_info_dict):
     return ethnicities_per_macroregion_dict
 
 
+'''
+input: ethnicities_per_counties - dict of ethnicities sorted by county, ethnicity - ethnicity for which we calculate the index
+output: dissimilarity_index - ce ne cere
+'''
 def dissimilarity_index(ethnicities_per_county, ethnicity):
     # T - total population of all counties
     T = 0
@@ -193,6 +197,10 @@ def dissimilarity_index(ethnicities_per_county, ethnicity):
     return 0.5 * D
 
 
+'''
+input: ethnicities_per_counties - dict of ethnicities sorted by county, ethnicity - ethnicity for which we calculate the index
+output: Shannon_Weaver - ce ne cere
+'''
 def Shannon_Weaver(ethnicities_per_county, ethnicity):
      # dict_T - total population per county
     dict_T = {}
@@ -221,5 +229,4 @@ def Shannon_Weaver(ethnicities_per_county, ethnicity):
 
             H += pi * math.log(pi, 2)
 
-    return (-H)
-
+    return -abs(H)
