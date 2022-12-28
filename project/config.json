@@ -1,3 +1,5 @@
 {
-    "DATA_PATH": "C:/Code Projects/datanalysis_2022/project/data/data.xlsx"
+    "DATA_PATH": "E:/Code Projects/GitHubRepos/datanalysis_2022/project/data/data.xlsx",
+    "REGIONS_PATH": "E:/Code Projects/GitHubRepos/datanalysis_2022/project/data/regions.xlsx",
+    "RESULTS_PATH": "E:/Code Projects/GitHubRepos/datanalysis_2022/project/results"
 }
