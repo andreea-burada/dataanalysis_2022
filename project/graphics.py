@@ -49,9 +49,9 @@ def principal_components(eigenvalues=None, title='Variance explained by principa
     plt.title(title, fontsize=14, color='k', verticalalignment='bottom')
     plt.xlabel(xlabel=labelX, fontsize=14, color='b', verticalalignment='top')
     plt.ylabel(ylabel=labelY, fontsize=14, color='b', verticalalignment='bottom')
-    componente = ['C'+str(i+1) for i in range(len(eigenvalues))]
+    components = ['C'+str(i+1) for i in range(len(eigenvalues))]
     plt.axhline(y=1, color='r')
-    plt.plot(componente, eigenvalues, 'bo-')
+    plt.plot(components, eigenvalues, 'bo-')
 
 
 def scatterPlot(matrix=None, title='Scatter Plot', labelX='Variables', labelY='Observations'):
@@ -59,7 +59,7 @@ def scatterPlot(matrix=None, title='Scatter Plot', labelX='Variables', labelY='O
     plt.title(title, fontsize=14, color='k', verticalalignment='bottom')
     plt.xlabel(xlabel=labelX, fontsize=14, color='k', verticalalignment='top')
     plt.ylabel(ylabel=labelY, fontsize=14, color='k', verticalalignment='bottom')
-
+    print(matrix.iloc[:, 0].values)
     plt.scatter(x=matrix.iloc[:, 0].values, y=matrix.index[:])
 
 

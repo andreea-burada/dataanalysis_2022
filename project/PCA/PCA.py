@@ -16,7 +16,7 @@ class PCA:
         self.X_standardized = (self.X - averages) / deviations
         
         # variance/covariance matrix for standardized X
-        self.covariance_matrix = np.cov(self.X_standardized, rowvar=False)
+        self.covariance_matrix = np.cov(m=self.X_standardized, rowvar=False)
         
         # computation for eigenvalues and eigenvectors for variance/covariance matrix
         eigenvalues, eigenvectors = np.linalg.eigh(self.covariance_matrix)
@@ -35,7 +35,7 @@ class PCA:
             minim = np.min(self.a[:, col])  # min and max computation for each eigenvector
             maxim = np.max(self.a[:, col])
             if np.abs(minim) > np.abs(maxim):
-                self.a[:, col] += -1
+                self.a[:, col] *= -1
                 
         # prinicipal components computation
         self.C = self.X_standardized @ self.a
@@ -85,5 +85,7 @@ class PCA:
     
     def get_common(self):
         return self.common
-        
+
+    def get_covariance_matrix(self):
+        return self.covariance_matrix
         
