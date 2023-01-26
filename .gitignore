@@ -8,3 +8,5 @@ homework_1/.idea/inspectionProfiles/profiles_settings.xml
 homework_1/dataIN/~$CoduriRomania.xlsx
 .venv
 dssa-project-workspace.code-workspace
+/others/
+/.venv/

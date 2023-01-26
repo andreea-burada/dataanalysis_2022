@@ -128,7 +128,7 @@ graph.correlogram(matrix=calc_obs_df, title='Correlogram of Quality of Observati
 # common
 common = PCA_model.get_common()
 common_df = pandas.DataFrame(data=common, index=variable_names, columns=['C' + str(i + 1) for i in range(variable_names.shape[0])])
-graph.correlogram(matrix=common_df, title='Community Correlogram')
+graph.correlogram(matrix=common_df, title='Communalities Correlogram')
 
 # scores
 scores = PCA_model.get_scores()
