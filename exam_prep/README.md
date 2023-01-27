@@ -1,6 +1,6 @@
 # Table of Contents
-## [Introduction](#introduction-1)
-## [PCA - Principal Component Analysis](#pca---principal-component-analysis-1)
+### [Introduction](#introduction-1)
+### [PCA - Principal Component Analysis](#pca---principal-component-analysis-1)
 <br></br>
 
 ---
@@ -10,8 +10,8 @@
 
 ### PDF - Probability Density Function
 Measures the possiblity for a variable to take a certain value
-- results are $ { \in [0,1]} $
-$$ {f(x) = P(X=x)} $$
+- results are ${ \in [0,1] }$ \
+$${ f(x) = P(X=x) }$$
 
 - ${X}$ - variable
 - ${x}$ - one of the values that ${X}$ may take
@@ -20,7 +20,7 @@ $$ {f(x) = P(X=x)} $$
 
 ### CDF - Cumulative Distribution Function
 Measures the possibility for continuous random variable ${X}$ to take values within a certain interval
-$$ { F(x) = P(X \le x ) = \int_{-\infty}^{x} f_X(t) \ dt} $$
+$${ F(x) = P(X \le x ) = \int_{-\infty}^{x} f_X(t) \ dt}$$
 
 - If ${X}$ is a purely discrete random variable, then it attains values ${x_1, x_2, ...}$ with probability ${p_i = P(x_i)}$
 
@@ -43,8 +43,9 @@ The first component agglutinates the most important information type because **i
 *Geometrically*, it is all about **determining the number of axis to be chosen** for a multidimensional representation in order to obtain a satisfactory informational coverage
 
 ### Other Information
-The dataset is of shape: \
-${ X = 
+The dataset is of shape:
+```math
+X = 
 \begin{bmatrix} 
 x_{11} & ... & x_{1j} & ... & x_{1m} \\
 x_{21} & ... & x_{2j} & ... & x_{2m} \\
@@ -52,9 +53,11 @@ x_{21} & ... & x_{2j} & ... & x_{2m} \\
 x_{i1} & ... & x_{ij} & ... & x_{im} \\
 ... & ... & ... & ... & ... \\
 x_{n1} & ... & x_{nj} & ... & x_{nm} \\
-\end{bmatrix} }$, where ${x_{ij}}$ is the value taken by `variable` j for the `observation` i
-- there are `m columns` ${\rArr}$ `m variables`
-- there are `n rows` ${\rArr}$ `n observations`
+\end{bmatrix} 
+```
+, where ${x_{ij}}$ is the value taken by `variable` j for the `observation` i
+- there are `m columns` -> `m variables`
+- there are `n rows` -> `n observations`
 
 - ${X_j}$ represents the column for variable ${j}$ for all ${n}$ observations
 
