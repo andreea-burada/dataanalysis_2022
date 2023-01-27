@@ -26,7 +26,7 @@ $${ F(x) = P(X \le x ) = \int_{-\infty}^{x} f_X(t) \ dt}$$
 
 - **discrete random variable** = quantity whose value is determined by chance; it can only take a countable or finite number of values
 
-- geometrically, ${F(x)}$ represents the area below the **probability density curve** (the graph with the `red line`)
+- geometrically, ${F(x)}$ represents the area below the **probability density curve**
 <br></br>
 ---
 <br></br>
