@@ -1,0 +1,6 @@
+{
+    "imports": {
+        "PCA": "dataIN/dataset_PCA.xlsx"
+    },
+    "export": "dataOUT"
+}
