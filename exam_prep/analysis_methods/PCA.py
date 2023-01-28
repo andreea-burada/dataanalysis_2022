@@ -70,7 +70,7 @@ class PCA_class:
             
             if abs(mini) > abs(maxi):
                 # reverse the sign of current_eigenvector
-                self.a[:, j] = -self.a[:, j]
+                self.a[:, j] *= -1
                 
         # compute the principal components for X standardized using eigenvectors
         # the principal components matrix is computed by multiplying the X stand. with the eigenvectors

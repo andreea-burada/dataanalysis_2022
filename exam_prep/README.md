@@ -139,7 +139,7 @@ for j in range(len(alpha)):
     maxi = np.max(a[:, j])
     # check if the eigenvector needs to be inverted
     if abs(mini) > abs(maxi):
-        a[:, j] = -a[:, j]
+        a[:, j] *= 1
 ```
 
 #### Step 4
@@ -165,4 +165,112 @@ def eigenvaluesGraph(alpha, title="Eigenvalues - principal components variance",
     plots.axhline(1, color='g')
 
     plots.show()
+```
+<br></br>
+
+---
+<br></br>
+
+# EFA - Exploratory Factor Analysis
+### Definition
+Factor analysis is a statistical method used to describe variability among observed, correlated variables in terms of a potentially lower number of unobserved variables called `factors`
+### How To Do It
+Basically, a lot of the things for the EFA analysis are very similar to the PCA analysis. \
+What is new are the two hypothesis testing as well as determining the number of significant factors and generate the FA model
+#### Bartlett Sphericity Test
+> X needs to be a `pandas.DataFrame` and to be standardized
+```python
+import factor_analyzer as fa
+
+bartlett_test = fa.calculate_bartlett_sphericity(X_std_df)
+
+if bartlett_test[0] > bartlett_test[1]:
+    print('There is at least one common factor')
+else:
+    print('There are no common factors')
+    exit(-1)
+```
+
+#### Kaiser-Meyer-Olkin index
+> based on the correlation matrices
+```python
+kmo = fa.calculate_kmo(X_std_df)
+
+if kmo[1] >= 0.5:
+    print('There is at least one common factor')
+else:
+    print('There are no common factors')
+    exit(-2)
+```
+
+#### Bartlett Test 
+> ADA_EN_lecture_5.pdf - page 22, 23, 24
+```python
+import scipy.stats as sts
+
+# X - non-standardized
+def bartlett_test(X, loadings, epsilon):
+    # n, m, q
+    n = X.shape[0]      # number of variables
+    m, q = np.shape(loadings)
+
+    # compute the correlation matrix for X
+    R = np.corrcoef(X, rowvar=False)
+
+    # V is the correl coeff matrix
+    V = R
+
+    # psi - principal diagonal of epsilon (specific factor variances)
+    psi = np.diag(epsilon)
+
+    # V estim is V with hat
+    # u = loadings
+    V_estim = loadings @ np.transpose(loadings) + psi
+
+    # I estim is written as I in the course
+    I_estim = np.linalg.inv(V_estim) @ V
+
+    # det of I_estim
+    det_I_estim = np.linalg.det(I_estim)
+
+    # trace of I_estim
+    trace_I_estim = np.trace(I_estim)
+
+    if det_I_estim > 0:
+        chi2Calc = (n - 1 - (2 * m + 4 * q - 5) / 6) * (trace_I_estim - np.log(det_I_estim) - m)
+        df = ((m - q) * (m - q) - m - q) / 2
+        chi2Tab = sts.chi2.cdf(chi2Calc, df)
+
+        return chi2Calc, chi2Tab
+    
+    return np.nan, np.nan
+```
+We repeat the Bartlett test a number of times equal to the number of variables we have in the dataset.
+```python
+# number of variables
+n = X.shape[0]
+
+# we initiate a minimum chi2Tab and a min. number of significant factors
+noSignFact = 1
+chi2Tab_min = 1
+
+for k in range(1, n):
+    # get FA model
+    fa_model = fa.FactorAnalyzer(n_factors=k)
+    fa_model.fit(X_std_df)
+
+    # get loadings and epsilon for test
+    loadings = fa_model.loadings_
+    epsilon = fa_model.get_uniquenesses()
+
+    chi2Calc, chi2Tab = bartlett_test(X, loadings, epsilon)
+
+    if np.isnan(chi2Calc) or np.isnan(chi2Tab):
+        break
+    # if we find a new minimum for chi squared table
+    if chi2Tab_min > chi2Tab:
+        noSignFact = k
+        chi2Tab_min = chi2Tab
+
+print('No of significant factors: ', noSignFact)
 ```

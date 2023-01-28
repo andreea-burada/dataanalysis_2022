@@ -30,6 +30,15 @@
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}",
             "justMyCode": true
+        },
+        {
+            "name": "EFA subject",
+            "type": "python",
+            "request": "launch",
+            "program": "EFA_subject.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "justMyCode": true
         }
     ]
 }
