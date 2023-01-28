@@ -21,6 +21,15 @@
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}",
             "justMyCode": true
+        },
+        {
+            "name": "PCA subject",
+            "type": "python",
+            "request": "launch",
+            "program": "PCA_subject.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "justMyCode": true
         }
     ]
 }
