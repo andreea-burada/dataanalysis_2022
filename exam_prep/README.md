@@ -139,7 +139,7 @@ for j in range(len(alpha)):
     maxi = np.max(a[:, j])
     # check if the eigenvector needs to be inverted
     if abs(mini) > abs(maxi):
-        a[:, j] *= 1
+        a[:, j] *= -1
 ```
 
 #### Step 4
